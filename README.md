@@ -1,49 +1,110 @@
-# CS351 Programming Languages - Fall 2025
+# PA3 - Simple Interpreter
 
-This is a template repository for CS351 Programming Languages course (Fall 2025). It provides a pre-configured development environment with the [PLCC (Programming Language Compiler Compiler)](https://github.com/ourPLCC/plcc) tool for building and experimenting with programming language implementations.
+**Due: Monday, Oct 6 at 11:59 PM**
 
-## Features
+## Overview
 
-- Pre-installed PLCC tool for language design and implementation
-- Configured development container for consistent environment across platforms
-- Ready-to-use setup for course assignments and projects
-- Integrated agentic learning assistant with [Claude Code](https://claude.ai/code), [Gemini CLI](https://ai.google.dev/gemini-api/docs/cli), [GitHub Copilot CLI](https://github.com/github/gh-copilot), or [OpenAI Codex](https://openai.com/index/openai-codex/) for guided PLCC development
+In this assignment, you will implement simple interpreters using PLCC. You'll work with recursive data structures and implement evaluation semantics for basic languages.
 
-## Getting Started
+## Q1: LONN (List of Non-empty Numbers)
 
-1. Fork or use this template repository
-2. Open in a development container-supported environment ([VS Code with Dev Containers extension](https://code.visualstudio.com/docs/devcontainers/containers), [GitHub Codespaces](https://github.com/features/codespaces), [DevPod](https://devpod.sh/), etc.)
-3. Start building your programming language implementations
+**Starter files**: `q1/lonn.grammar`
 
-## Agentic Learning Assistant
+LONN is a language for a nonempty-list-of-numbers. Implement the **minimum-value semantics** for this language. When a LONN program is evaluated, it should display the minimum value in the list.
 
-This environment includes an integrated learning assistant that helps guide your PLCC development process. The assistant follows specific pedagogical guidelines to help you learn programming language concepts through hands-on discovery.
+### Example Session
 
-### Key Features
+```
+--> (3)
+3
+--> (3 5 2 4)
+2
+--> ()
+ERROR
+```
 
-- **Guided Discovery Learning**: The assistant asks leading questions rather than providing complete solutions
-- **PLCC Workflow Support**: Understands the `plccmk`, `scan`, `parse`, and `rep` command workflow
-- **Grammar Development Help**: Assists with lexical, syntactic, and semantic specification development
-- **Debugging Guidance**: Helps you systematically identify and resolve issues in your language implementations
+### Implementation Notes
 
-### Supported Ruler Instructions
+- The LONN grammar defines lists recursively
+- Your semantics will use functional recursion to traverse the structure
+- Compute and return the minimum value from the list
 
-The environment is pre-configured with ruler instructions that enable the assistant to:
+### Testing
 
-- Explain PLCC grammar file structure and syntax
-- Guide token definition and regex pattern development
-- Help debug scanner, parser, and interpreter issues
-- Suggest systematic testing approaches using sample programs
-- Provide conceptual explanations of formal language theory
-- Support the three-phase development workflow (lexing → parsing → interpreting)
+Create a test file with sample inputs and use:
+```bash
+plccmk -c lonn.grammar
+rep -n < tests.lonn
+```
 
-### Usage Tips
+## Q2: Binary Numbers
 
-- Ask conceptual questions about language design decisions
-- Request guidance on debugging specific PLCC errors
-- Seek help understanding grammar file sections and their interactions
-- Get assistance with systematic testing strategies for your language implementations
+**Starter files**: `q2/binary.grammar`
 
-## License
+Write a lexical specification and semantics for unsigned binary numbers. The language should output the decimal value of the given binary number.
 
-See [LICENSE.md](LICENSE.md) for licensing information.
+### Example Session
+
+```
+--> 0
+0
+--> 101
+5
+--> 000000011
+3
+--> 10000
+16
+--> 11111
+31
+--> 012
+ERROR
+```
+
+### Requirements
+
+**Lexical Specification**:
+- Three tokens: `NL` (newline as `'\n'`), `ZERO`, and `ONE`
+
+**Syntactic Specification**:
+- Add two grammar rules for `<bit>` non-terminal
+- One rule for `ZERO`, one for `ONE`
+- Define appropriate subclass names for the Bit class
+
+**Semantic Specification**:
+- `$run()` in `Binary`: prints result of `bits.eval()`
+- `eval()` in `Bits`: calculates decimal value using accumulator pattern
+- Abstract `eval()` in `Bit` returning int
+- Concrete `eval()` in Bit subclasses returning 0 or 1
+
+### Algorithm
+
+Use accumulator pattern to convert binary to decimal:
+1. Initialize sum to 0
+2. For each bit from left to right:
+   - Multiply current sum by 2
+   - Add current bit value to sum
+
+Example: `1011` → `((0×2+1)×2+0)×2+1)×2+1 = 11`
+
+### Error Handling
+
+If `bitList` is empty, throw a `PLCCException` with appropriate message.
+
+## Submission
+
+Push your completed solutions to your GitHub repository:
+- `q1/lonn.grammar` with complete semantics
+- `q2/binary.grammar` with lexical, syntactic, and semantic specifications
+- Any test files you created
+
+## Grading Rubric
+
+Each question is worth 50 points:
+- Correct lexical specification: 15 points
+- Correct syntactic specification: 15 points
+- Correct semantic implementation: 15 points
+- Proper error handling: 5 points
+
+---
+
+_Course content developed by Declan Gray-Mullen for WNEU with Claude_

@@ -1,0 +1,17 @@
+# LONN: List of Non-empty Numbers
+# Lexical specification
+
+skip WHITESPACE '\s+'
+skip COMMENT '#.*'
+token LP '\('
+token RP '\)'
+token NUM '\d+'
+%
+# Syntactic specification
+<lonn>:Program ::= LP <nums> RP
+<nums>:NumList ::= <num> <nums>
+<nums>:SingleNum ::= <num>
+<num>:Num ::= NUM
+%
+# Semantic specification
+# Students will implement the minimum-value semantics here
