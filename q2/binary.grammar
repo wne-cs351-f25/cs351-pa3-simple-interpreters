@@ -7,10 +7,9 @@ token NL '\n'
 
 %
 # Syntactic specification
-<binary>:Binary ::= <bits>
-<bits>:BitList ::= <bit> <bits>
-<bits>:SingleBit ::= <bit>
-# Students will add <bit> rules here
+<binary> ::= <bits>
+<bits> **= <bit>
+# Students will add <bit> rules here (e.g., <bit>:ZeroBit ::= ZERO)
 
 %
 # Semantic specification

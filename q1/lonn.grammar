@@ -9,9 +9,10 @@ token NUM '\d+'
 %
 # Syntactic specification
 <lonn>:Program ::= LP <nums> RP
-<nums>:NumList ::= <num> <nums>
-<nums>:SingleNum ::= <num>
-<num>:Num ::= NUM
+<nums> ::= <num> <rest>
+<rest>:NumList ::= <nums>
+<rest>:Empty ::= 
+<num> ::= <NUM>
 %
 # Semantic specification
 # Students will implement the minimum-value semantics here
