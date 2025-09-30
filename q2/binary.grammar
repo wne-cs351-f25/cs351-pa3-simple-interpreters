@@ -6,7 +6,7 @@ token NL '\n'
 
 %
 # Syntactic specification
-<binary> ::= <bits>
+<binary> ::= <bits> NL
 <bits> **= <bit>
 # Students will add <bit> rules here (e.g., <bit>:ZeroBit ::= ZERO)
 
