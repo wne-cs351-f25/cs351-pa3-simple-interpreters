@@ -1,7 +1,6 @@
 # Binary Number Interpreter
 # Lexical specification
 
-skip WHITESPACE '\s+'
 token NL '\n'
 # Students will add ZERO and ONE tokens here
 
